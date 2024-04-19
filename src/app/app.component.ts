@@ -11,4 +11,5 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 })
 export class AppComponent {
   title = 'front-unilocal-proyecto-final';
+  footer = '© 2023 Unilocal. Todos los derechos reservados.';
 }
