@@ -6,6 +6,7 @@ import { NegociosService } from '../../servicios/negocios.service';
 import { Horario } from '../../dto/Horario';
 import { ItemNegocioDTO } from '../../dto/ItemNegocioDTO';
 import { TelefonoDTO } from '../../dto/TelefonoDTO';
+import { MapaService } from '../../servicios/mapa.service';
 
 @Component({
   selector: 'app-crear-negocio',
@@ -20,11 +21,27 @@ export class CrearNegocioComponent {
   horarios: Horario[];
   telefonos: TelefonoDTO[];
   archivos!:FileList;
+  dias:string[];
 
-  constructor(private negociosService: NegociosService) {
+  constructor(private negociosService: NegociosService, private mapaService: MapaService) {
     this.registroNegocioDTO = new RegistroNegocioDTO();
     this.horarios = [new Horario()];
     this.telefonos = [new TelefonoDTO()];
+    this.dias = [];
+    this.cargarDias();
+  }
+
+  ngOnInit(): void {
+    this.mapaService.crearMapa();
+
+    this.mapaService.agregarMarcador().subscribe((marcador) => {
+    this.registroNegocioDTO.ubicacion.latitud = marcador.lat;
+    this.registroNegocioDTO.ubicacion.longitud = marcador.lng;
+    });
+  }
+
+  private cargarDias(){
+    this.dias = ['Lunes',"Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
   }
 
   public crearNegocio(){
@@ -52,6 +69,8 @@ export class CrearNegocioComponent {
       this.registroNegocioDTO.imagenes = Array.from(this.archivos).map(file => file.name); // Asigna el archivo seleccionado al objeto usuario
     }
   }
+
+
 
 
 }

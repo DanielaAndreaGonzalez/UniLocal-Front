@@ -23,18 +23,7 @@
       <div class="mb-3 row">
         <label class="col-sm-2 col-form-label">Ubicación: </label>
         <div class="col-sm-10">
-          <div class="row">
-            <div class="col">
-              <input #latitud="ngModel" class="form-control"
-                [ngClass]="latitud.invalid && latitud.dirty ? 'is-invalid' : ''" type="number" name="latitud"
-                [(ngModel)]="registroNegocioDTO.ubicacion.latitud" required />
-            </div>
-            <div class="col">
-              <input #longitud="ngModel" class="form-control" [ngClass]="longitud.invalid && longitud.dirty ? 'is-invalid' :
-
-    ''" type="number" name="longitud" [(ngModel)]="registroNegocioDTO.ubicacion.longitud" required />
-            </div>
-          </div>
+          <div id="mapa"></div>
         </div>
       </div>
       <div class="mb-3 row">
@@ -63,9 +52,11 @@
           @for (item of horarios; track $index) {
           <div class="row mb-2 ">
             <div class="col">
-              <input class="form-control" placeholder="Día" type="text" name="dia-{{$index}}" [(ngModel)]="item.dia"
-                required />
-
+              <select class="form-select " name="dia-{{$index}}" [(ngModel)]="item.dia"
+                required >
+                <option value="" selected>Seleccione un dia</option>
+                  @for (item of dias; track $index) { <option [value]="item">{{item}}</option>}
+              </select>
             </div>
             <div class="col">
               <input class="form-control" placeholder="Hora Inicio" type="time" name="horaInicio-{{$index}}"

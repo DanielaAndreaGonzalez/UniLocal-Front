@@ -31,6 +31,12 @@ export class NegociosService {
     return this.negocios.find(negocios => negocios.codigoNegocio == codigo);
   }
 
+  public buscar(texto: string): ItemNegocioDTO[] {
+    return this.negocios.filter(negocio =>
+      negocio.nombre.toLowerCase().includes(texto.toLowerCase())
+    );
+  }
+
   public crear(negocioNuevo: RegistroNegocioDTO) {
     const codigo = (this.negocios.length + 1).toString();
     this.negocios.push( new ItemNegocioDTO(codigo, negocioNuevo.nombre,
