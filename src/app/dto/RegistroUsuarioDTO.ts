@@ -4,5 +4,8 @@ export interface RegistroUsuarioDTO {
   nickname: string;
   email: string;
   password: string;
+  confirmaPassword: string;
   ciudadResidencia: string;
 }
+
+

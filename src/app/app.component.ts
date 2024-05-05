@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { RegistroUsuarioComponent } from './componentes/registro/registro.component';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'front-unilocal-proyecto-final';
+  title = 'Unilocal';
   footer = '© 2024 Unilocal. Todos los derechos reservados.';
 
 

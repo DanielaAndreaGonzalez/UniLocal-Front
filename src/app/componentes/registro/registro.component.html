@@ -1,1 +1,48 @@
-<p>registro works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1 class="text-center mb-4">REGISTRAR USUARIO</h1>
+      <form (ngSubmit)="submitForm()" #registroForm="ngForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" class="form-control" placeholder="Ingrese su nombre" required>
+        </div>
+        <div class="mb-3">
+          <label for="nickname" class="form-label">Nickname:</label>
+          <input type="text" id="nickname" name="nickname" [(ngModel)]="usuario.nickname" class="form-control" placeholder="Ingrese su apodo" required>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" id="email" name="email" [(ngModel)]="usuario.email" class="form-control" placeholder="Ingrese su correo electrónico" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Contraseña:</label>
+          <input type="password" id="password" name="password" [(ngModel)]="usuario.password" class="form-control" placeholder="Ingrese su contraseña" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="passwordconfirm" class="form-label">Confirmar Contraseña :</label>
+          <input type="password" id="passwordconfirm" name="passwordconfirm" [(ngModel)]="usuario.confirmaPassword" class="form-control" placeholder="Ingrese de nuevo contraseña" required>
+        </div>
+        <div class="mb-3">
+          <label for="ciudadResidencia" class="form-label">Ciudad de Residencia:</label>
+          <select class="form-select " name="ciudadResidencia" required [(ngModel)]="usuario.ciudadResidencia" >
+          <option value="" selected>Seleccione una ciudad</option>
+          @for (item of ciudades; track $index) { <option [value]="item">{{item}}</option>}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="fotoPerfil" class="form-label">Foto de Perfil:</label>
+          <input type="file" id="fotoPerfil" name="fotoPerfil" (change)="onFileSelected($event)" class="form-control" required>
+        </div>
+        @if (!sonIguales()) { <div class="alert alert-danger" role="alert" >Las contraseñas no
+          coinciden</div> }
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="!registroForm.valid || !sonIguales()">
+          <i class="fa-solid fa-circle-plus me-1"></i>Registrarse
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
