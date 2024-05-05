@@ -53,7 +53,6 @@ export class RegistroUsuarioComponent {
     }
 
   onFileSelected(event: any) {
-
     if (event.target.files.length > 0) {
       this.archivos = event.target.files;
       this.usuario.fotoPerfil = this.archivos[0].name; // Asigna el archivo seleccionado al objeto usuario
