@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <h1 class="text-center mb-4">REGISTRAR USUARIO</h1>
-      <form (ngSubmit)="submitForm()" #registroForm="ngForm" class="needs-validation" novalidate>
+      <form  #registroForm="ngForm" class="needs-validation" novalidate>
         <div class="mb-3">
           <label for="nombre" class="form-label">Nombre:</label>
           <input type="text" id="nombre" name="nombre" [(ngModel)]="usuario.nombre" class="form-control" placeholder="Ingrese su nombre" required>
@@ -34,13 +34,19 @@
 
         <div class="mb-3">
           <label for="fotoPerfil" class="form-label">Foto de Perfil:</label>
-          <input type="file" id="fotoPerfil" name="fotoPerfil" (change)="onFileSelected($event)" class="form-control" required>
+          <div class="col-sm-8"> <input type="file" class="form-control" name="foto" (change)="onFileSelected($event)" />
+          </div>
+          <div class="col-sm-2" > <button type="submit" [disabled]="archivos == null" class="btn btn-primary" (click)="subirImagen()" >
+             <i class="fa-solid fa-cloud-arrow-up me-2"></i>Subir Foto </button>
+          </div>
         </div>
         @if (!sonIguales()) { <div class="alert alert-danger" role="alert" >Las contraseñas no
           coinciden</div> }
-        <button type="submit" class="btn btn-primary btn-block" [disabled]="!registroForm.valid || !sonIguales()">
+        <button (click)="submitForm()" class="btn btn-primary btn-block" [disabled]="!registroForm.valid || !sonIguales()">
           <i class="fa-solid fa-circle-plus me-1"></i>Registrarse
         </button>
+        <app-alerta [alerta]="alerta"></app-alerta>
+
       </form>
     </div>
   </div>
