@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ItemNegocioDTO } from '../dto/ItemNegocioDTO';
 
-
 declare var mapboxgl: any;
 
 @Injectable({
@@ -15,27 +14,36 @@ export class MapaService {
   marcadores: any[];
 
   constructor() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuaWVsYWdvbnphbGV6IiwiYSI6ImNsdnUxYXkwNDFjdzQya3A2enBleXZtamcifQ.v0G6NF6IGcg-J_b7Lh6E4g';
+
+    if( typeof mapboxgl == "object" ){
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZGFuaWVsYWdvbnphbGV6IiwiYSI6ImNsdnUxYXkwNDFjdzQya3A2enBleXZtamcifQ.v0G6NF6IGcg-J_b7Lh6E4g';
+    }
     this.marcadores = [];
   }
 
   public crearMapa() {
-    this.mapa = new mapboxgl.Map({
-      container: 'mapa',
-      style: this.style,
-      center: [-72.309, 4.473],
-      zoom: 4.5,
-    });
-    this.mapa.addControl(new mapboxgl.NavigationControl());
-    this.mapa.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: { enableHighAccuracy: true },
-        trackUserLocation: true,
-      })
-    );
+
+
+    if( typeof mapboxgl == "object" ){
+
+      this.mapa = new mapboxgl.Map({
+        container: 'mapa',
+        style: this.style,
+        center: [-72.309, 4.473],
+        zoom: 4.5,
+      });
+      this.mapa.addControl(new mapboxgl.NavigationControl());
+      this.mapa.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: { enableHighAccuracy: true },
+          trackUserLocation: true,
+        })
+      );
+    }
   }
 
   public agregarMarcador(): Observable<any> {
+    console.log("Ingresa marcador");
     const mapaGlobal = this.mapa;
     const marcadores = this.marcadores;
     return new Observable<any>((observer) => {
@@ -45,12 +53,14 @@ export class MapaService {
           .setLngLat([e.lngLat.lng, e.lngLat.lat])
           .addTo(mapaGlobal);
         marcadores.push(marcador);
+        console.log(marcador);
         observer.next(marcador._lngLat);
       });
     });
   }
 
   public pintarMarcadores(negocios: ItemNegocioDTO[]) {
+    console.log("pintar");
     negocios.forEach((negocio) => {
       new mapboxgl.Marker()
         .setLngLat([negocio.ubicacion.longitud, negocio.ubicacion.latitud])
@@ -58,6 +68,7 @@ export class MapaService {
         .addTo(this.mapa);
     });
   }
+
 
 
 
