@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ItemNegocioDTO } from '../../dto/ItemNegocioDTO';
 import { NegociosService } from '../../servicios/negocios.service';
+import { TokenService } from '../../servicios/token.service';
 
 @Component({
   selector: 'app-gestion-negocios',
@@ -16,7 +17,7 @@ export class GestionNegociosComponent {
   textoBtnEliminar: string;
 
   negocios: ItemNegocioDTO[];
-  constructor(private NegociosService: NegociosService) {
+  constructor(private negocioService: NegociosService,private tokenService: TokenService) {
     this.negocios = [];
     this.listarNegocios();
     this.seleccionados = [];
@@ -24,7 +25,16 @@ export class GestionNegociosComponent {
   }
 
   public listarNegocios() {
-    this.negocios = this.NegociosService.listar();
+    const codigoCliente = this.tokenService.getCodigo();
+    this.negocioService.listarNegociosPropietario(codigoCliente).subscribe({
+      next: (data) => { this.negocios = data.respuesta;
+
+      },
+       error: (error) => { console.error(error);
+
+       }
+      });
+
   }
 
   public seleccionar(producto: ItemNegocioDTO, estado:boolean){
@@ -50,7 +60,7 @@ export class GestionNegociosComponent {
   }
   public borrarNegocios(){
     this.seleccionados.forEach(n => {
-      this.NegociosService.eliminar(n.codigoNegocio);
+      this.negocioService.eliminar(n.codigoNegocio);
       this.negocios = this.negocios.filter(negocio => negocio.codigoNegocio !== n.codigoNegocio);
     });
     this.seleccionados = [];

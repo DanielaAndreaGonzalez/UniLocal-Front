@@ -7,6 +7,7 @@ import { Horario } from '../../dto/Horario';
 import { ItemNegocioDTO } from '../../dto/ItemNegocioDTO';
 import { TelefonoDTO } from '../../dto/TelefonoDTO';
 import { MapaService } from '../../servicios/mapa.service';
+import { PublicoService } from '../../servicios/publico.service';
 
 @Component({
   selector: 'app-crear-negocio',
@@ -22,13 +23,16 @@ export class CrearNegocioComponent {
   telefonos: TelefonoDTO[];
   archivos!:FileList;
   dias:string[];
+  tiposNegocio : string[];
 
-  constructor(private negociosService: NegociosService, private mapaService: MapaService) {
+  constructor(private negociosService: NegociosService, private mapaService: MapaService, private publicoService: PublicoService) {
     this.registroNegocioDTO = new RegistroNegocioDTO();
     this.horarios = [new Horario()];
     this.telefonos = [new TelefonoDTO()];
     this.dias = [];
+    this.tiposNegocio = [];
     this.cargarDias();
+    this.cargarTiposNegocio();
   }
 
   ngOnInit(): void {
@@ -39,6 +43,17 @@ export class CrearNegocioComponent {
       this.registroNegocioDTO.ubicacion.longitud = marcador.lng;
       console.log(this.registroNegocioDTO);
     });
+  }
+
+  private cargarTiposNegocio(){
+    this.publicoService.listarCiudades().subscribe({
+      next:(data) => {
+        this.tiposNegocio = data.respuesta;
+      },
+      error: (error) => {
+        console.log("Error al cargar las ciudades");
+      }
+    })
   }
 
   private cargarDias(){
